@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "435211450339",
+    "firebase_url": "https://hismart-4d4ea.firebaseio.com",
+    "project_id": "hismart-4d4ea",
+    "storage_bucket": "hismart-4d4ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435211450339:android:922ed60f02f8df3884d2d6",
+        "android_client_info": {
+          "package_name": "com.example.hismart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "435211450339-o7ngjic6sdhrkveskk51gi623f6vevir.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hismart",
+            "certificate_hash": "82c5fb4cb27ae4d2988b5375217e9ac028cd3a31"
+          }
+        },
+        {
+          "client_id": "435211450339-0n3sst4oo1ohsioddlmdd77v16i7070g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADT2Xk5Kpp5ulwBlU36usVxYAmSyrka-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "435211450339-0n3sst4oo1ohsioddlmdd77v16i7070g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
