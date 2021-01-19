@@ -1,14 +1,19 @@
 import 'coffee_data.dart';
 import 'coffee_details.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'Model/cart.dart';
+
 
 class CoffeeItem extends StatelessWidget {
   final int index;
 
   CoffeeItem({this.index});
 
+
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<Cart>(context);
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
@@ -59,7 +64,9 @@ class CoffeeItem extends StatelessWidget {
                       Icons.add,
                       color: Colors.white,
                     ),
-                    onPressed: () => () {},
+                    onPressed: (){
+                      cart.addItem(index.toString(),coffee_list[index].name,1,coffee_list[index].price);
+                    },
                   ),
                 ),
               ],

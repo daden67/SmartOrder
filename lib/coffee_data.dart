@@ -6,19 +6,19 @@ List<Coffee> _coffee_list = [
     name: "Espresso",
     image: "assets/images/espresso.png",
     backgroundColor: Color(0xff65C5B2),
-    price: 5,
+    price: 30,
   ),
   Coffee(
     name: "Cafe Mocha",
     image: "assets/images/Caffe_Mocha.png",
     backgroundColor: Color(0xffFFAEF2),
-    price: 11,
+    price: 35,
   ),
   Coffee(
     name: "Caramel Macchiato",
     image: "assets/images/Caramel_Macchiato.png",
     backgroundColor: Color(0xffFF9839),
-    price: 7,
+    price: 40,
   ),
   Coffee(
     name: "Turkish Coffee",
@@ -30,25 +30,25 @@ List<Coffee> _coffee_list = [
     name: "Cappuccino",
     image: "assets/images/cappuccino.png",
     backgroundColor: Color(0xffE74343),
-    price: 9,
+    price: 50,
   ),
   Coffee(
     name: "Affogato",
     image: "assets/images/affogato.png",
     backgroundColor: Color(0xff56B670),
-    price: 12,
+    price: 45,
   ),
   Coffee(
     name: "Cortado",
     image: "assets/images/cortado.png",
     backgroundColor: Color(0xff8D5FDC),
-    price: 8,
+    price: 50,
   ),
   Coffee(
     name: "Cafe Cubano",
     image: "assets/images/cafe_cubano.png",
     backgroundColor: Color(0xff5FBFDC),
-    price: 15,
+    price: 55,
   ),
 ];
 

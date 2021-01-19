@@ -27,6 +27,7 @@ class LoginScreen extends StatelessWidget {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
 
+
   Future<void> verifyPhone() async {
     final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
       this.verificationId = verId;
@@ -67,7 +68,7 @@ class LoginScreen extends StatelessWidget {
               height: 85,
               child: Column(children: [
                 TextField(
-                  obscureText: true,
+                  keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(), labelText: 'OTP'),
                   onChanged: (value) {
@@ -299,7 +300,6 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   height: 200,
                 ),
-
                  */
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -324,8 +324,8 @@ class LoginScreen extends StatelessWidget {
                         }
                       },
                       onChanged: (value) {
-                         print(value);
-                         this.phoneNo = "+84" +value;
+                        print(value);
+                        this.phoneNo = "+84" +value;
                       },
 
 
@@ -465,5 +465,3 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
-

@@ -2,6 +2,11 @@ import 'coffee_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:provider/provider.dart';
+import 'package:hismart/cartscreen.dart';
+import 'Model/cart.dart';
+
+
 
 class CoffeeDetails extends StatefulWidget {
   final int index;
@@ -18,8 +23,9 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
   bool isFavourite = true;
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<Cart>(context);
     return Scaffold(
-      backgroundColor: coffee_list[widget.index].backgroundColor,
+    backgroundColor: coffee_list[widget.index].backgroundColor,
       body: SafeArea(
         child: Container(
           child: Column(
@@ -35,15 +41,24 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
                     Container(
                       height: 50,
                       width: 60,
-                      child: Image.asset(
-                        "assets/images/menu.png",
+                      child: IconButton(
+                        icon: Image.asset("assets/images/menu.png"),
+                        iconSize: 40,
+                        onPressed: () => Navigator.of(context).pop(),
                       ),
                     ),
                     Container(
                       height: 50,
                       width: 60,
-                      child: Image.asset(
-                        "assets/images/shopping-cart.png",
+                      child: IconButton(
+                        icon: Image.asset("assets/images/shopping-cart.png"),
+                        iconSize: 40,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => CartScreen()),
+                          );
+                        },
                       ),
                     )
                   ],
@@ -180,7 +195,7 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
                                   Container(
                                     height: 45,
                                     child: Text(
-                                      "\$${coffee_list[widget.index].price}",
+                                      "${coffee_list[widget.index].price}k",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontSize: 40,
@@ -207,7 +222,7 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
                                       ),
                                       Container(
                                         height: 35,
-                                        width: 30,
+                                        width: 35,
                                         alignment: Alignment.center,
                                         child: Text(
                                           quantity.toString(),
@@ -240,7 +255,7 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
                                   Container(
                                     height: 40,
                                     child: Text(
-                                      "L",
+                                      "Hot",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontSize: 40,
@@ -251,8 +266,6 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
                                     width: 10,
                                   ),
                                   CupertinoSwitch(
-                                    trackColor: coffee_list[widget.index]
-                                        .backgroundColor,
                                     value: switchvalue,
                                     activeColor: coffee_list[widget.index]
                                         .backgroundColor,
@@ -268,7 +281,7 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
                                   Container(
                                     height: 40,
                                     child: Text(
-                                      "S",
+                                      "Cold",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontSize: 40,
@@ -286,7 +299,13 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
                                   borderRadius: BorderRadius.circular(100),
                                 ),
                                 child: FlatButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    cart.addItem(widget.index.toString(),coffee_list[widget.index].name,quantity, coffee_list[widget.index].price);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => CartScreen()),
+                                    );
+                                  },
                                   child: Container(
                                     padding: EdgeInsets.only(
                                       top: 7,
