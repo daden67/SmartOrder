@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hismart/profilescreen.dart';
+import 'package:hismart/vouchercodescreen.dart';
 import 'package:provider/provider.dart';
 import 'Model/cart.dart';
 import 'widgets/cart_item.dart';
@@ -9,6 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CartScreen extends StatelessWidget {
   //static const routeName = '/cart';
+  static int value = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,7 @@ class CartScreen extends StatelessWidget {
           ),
         ],
       ),
-        bottomNavigationBar: CheckoutCart( cart: cart),
+        bottomNavigationBar: CheckoutCart(cart: cart, value: value),
     );
   }
 }
@@ -59,14 +64,32 @@ class _CheckoutButtonState extends State<CheckoutButton> {
 
 class CheckoutCart extends StatefulWidget {
   final Cart cart;
+  final int value;
 
-  const CheckoutCart({@required this.cart});
+  const CheckoutCart({@required this.cart, @required this.value});
   @override
   _CheckoutCart createState() => _CheckoutCart();
 }
 
 class _CheckoutCart extends State<CheckoutCart>
 {
+  bool Checkinfo()
+  {
+    String accountKey = FirebaseAuth.instance.currentUser.uid;
+    print(accountKey);
+    var db = FirebaseDatabase.instance.reference().child("accounts").orderByChild(
+        "UID").equalTo(accountKey);
+    db.once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      if(values==null)
+        {
+          print("values la null");
+          return true;
+        }
+    }
+    );
+    return false;
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -96,6 +119,106 @@ class _CheckoutCart extends State<CheckoutCart>
           children: [
             Row(
               children: [
+                SizedBox(width: 30),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  height: 40,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    "Order amount",
+                  ),
+                ),
+                Spacer(),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  height: 40,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child:  Text.rich(
+                        TextSpan(
+                          text: widget.cart.totalAmount.toString()+'k',
+                          style: TextStyle(fontSize: 20, color: Colors.blueAccent),
+                        ),
+                    ),
+                  ),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(width: 30),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  height: 40,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    "Coupon discount",
+                  ),
+                ),
+                Spacer(),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  height: 40,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child:  Text.rich(
+                    TextSpan(
+                      text: (widget.cart.totalAmount*widget.value/100).round().toString()+'k',
+                      style: TextStyle(fontSize: 20, color: Colors.blueAccent),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(width: 30),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  height: 40,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    "Total",
+                  ),
+                ),
+                Spacer(),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  height: 40,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child:  Text.rich(
+                    TextSpan(
+                      text: (widget.cart.totalAmount*(1-widget.value/100)).round().toString()+'k',
+                      style: TextStyle(fontSize: 20, color: Colors.blueAccent),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+
                 Container(
                   padding: EdgeInsets.all(10),
                   height: 40,
@@ -107,13 +230,39 @@ class _CheckoutCart extends State<CheckoutCart>
                   child: SvgPicture.asset("assets/images/receipt.svg"),
                 ),
                 Spacer(),
-                Text("Add voucher code"),
-                const SizedBox(width: 10),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: Colors.blueAccent,
-                )
+                Container(
+                  height: 40,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => VCScreen()),
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(
+                        top: 7,
+                      ),
+                      child: Row(
+                        children: [
+                          Text("Add voucher code"),
+                          const SizedBox(width: 10),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 12,
+                            color: Colors.blueAccent,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
               ],
             ),
             SizedBox(height: 20),
@@ -125,8 +274,8 @@ class _CheckoutCart extends State<CheckoutCart>
                     text: "Total:\n",
                     children: [
                       TextSpan(
-                        text: widget.cart.totalAmount.toString()+'k',
-                        style: TextStyle(fontSize: 16, color: Colors.black),
+                        text: (widget.cart.totalAmount*(1-widget.value/100)).round().toString()+'k',
+                        style: TextStyle(fontSize: 20, color: Colors.redAccent),
                       ),
                     ],
                   ),
@@ -136,15 +285,36 @@ class _CheckoutCart extends State<CheckoutCart>
                   child: FlatButton(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     color: Colors.blueAccent,
-                    onPressed: widget.cart.totalAmount <= 0
+                    onPressed:
+                    widget.cart.totalAmount <= 0
                         ? null
                         : () async {
-                      await Provider.of<Orders>(context, listen: false).addOrder(
-                          widget.cart.items.values.toList(), widget.cart.totalAmount);
-                      widget.cart.clear();
+                      String accountKey = FirebaseAuth.instance.currentUser.uid;
+                      print(accountKey);
+                      var db = FirebaseDatabase.instance.reference().child("accounts").orderByChild(
+                          "UID").equalTo(accountKey);
+                      db.once().then((DataSnapshot snapshot) async {
+                        Map<dynamic, dynamic> values = snapshot.value;
+                        if(values==null)
+                        {
+                          print("Ban chua nhap thong tin dia chi de giao");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ProfileScreen()),
+                          );
+                        }
+                        else
+                          {
+                            await Provider.of<Orders>(context, listen: false)
+                                .addOrder(
+                                widget.cart.items.values.toList(),
+                                (widget.cart.totalAmount*(1-widget.value/100)).round());
+                            widget.cart.clear();
+                          }
+                      });
                     },
                     child: Text(
-                      "Check Out",
+                      "Place order",
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.white,

@@ -13,9 +13,9 @@ class _ProfileScreen extends State<ProfileScreen> {
 
   StreamSubscription _subscriptionTodo;
   static String routeName = "/profile";
-  String _Name = "Display the Name here";
-  String _PhoneNumber = "Display the Phone Number here";
-  String _Address = "Display the Address here";
+  String _Name = "";
+  String _PhoneNumber = "";
+  String _Address = "";
   String _name="";
   String _phonenumber="";
   String _address="";
@@ -51,14 +51,39 @@ class _ProfileScreen extends State<ProfileScreen> {
       throw err;
     }
   }
+  void RemoveProfile()
+  {
+    String accountKey = FirebaseAuth.instance.currentUser.uid;
+
+    print(accountKey);
+    FirebaseDatabase.instance.reference()
+        .child('accounts')
+        .orderByChild('UID')
+        .equalTo(accountKey)
+        .once()
+        .then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> children = snapshot.value;
+      children.forEach((key, value) {
+        FirebaseDatabase.instance.reference()
+            .child('accounts')
+            .child(key)
+            .remove();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    void pri()
+    void init()
     {
+      this._name=_Name;
+      this._phonenumber=_PhoneNumber;
+      this._address=_Address;
       print(_Name);
       print(_PhoneNumber);
+      print(_Address);
     }
+    init();
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -138,7 +163,13 @@ class _ProfileScreen extends State<ProfileScreen> {
               ),
               child: FlatButton(
                 onPressed: () {
+                  RemoveProfile();
                   addProfile(_name, _phonenumber, _address);
+                  setState(() {
+                    _Name = _name;
+                    _PhoneNumber=_phonenumber;
+                    _Address=_address;
+                  });
                 },
                 child: Container(
                   padding: EdgeInsets.only(
@@ -202,7 +233,7 @@ class FirebaseProfile {
       Map<dynamic, dynamic> values = snapshot.value;
       if(values==null)
         {
-          var account = new Account("Nhập tên","Nhập số điện thoại","Nhập địa chỉ");
+          var account = new Account("","","");
           onData(account);
           return;
         }
