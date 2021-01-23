@@ -6,6 +6,7 @@ import 'package:hismart/profilescreen.dart';
 import 'package:hismart/vouchercodescreen.dart';
 import 'package:provider/provider.dart';
 import 'Model/cart.dart';
+import 'historyscreen.dart';
 import 'widgets/cart_item.dart';
 import 'Model/orders.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -310,6 +311,10 @@ class _CheckoutCart extends State<CheckoutCart>
                                 widget.cart.items.values.toList(),
                                 (widget.cart.totalAmount*(1-widget.value/100)).round());
                             widget.cart.clear();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HistoryScreen()),
+                            );
                           }
                       });
                     },

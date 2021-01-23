@@ -76,6 +76,10 @@ class _VCScreen extends State<VCScreen> {
                         setState(() {
                           _code="";
                           CartScreen.value=int.parse(i);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => CartScreen()),
+                          );
                         });
                       }
                       );

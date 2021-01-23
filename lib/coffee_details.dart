@@ -21,6 +21,8 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
   int quantity = 1;
   bool switchvalue = true;
   bool isFavourite = true;
+  String text = " - Cold";
+
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
@@ -272,6 +274,15 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
                                     onChanged: (value) {
                                       setState(() {
                                         switchvalue = value;
+                                        if (switchvalue)
+                                          {
+                                            text = " - Cold";
+                                          }
+                                        else
+                                          {
+                                            text= " - Hot";
+                                          }
+                                        print(text);
                                       });
                                     },
                                   ),
@@ -300,7 +311,11 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
                                 ),
                                 child: FlatButton(
                                   onPressed: () {
-                                    cart.addItem(widget.index.toString(),coffee_list[widget.index].name,quantity, coffee_list[widget.index].price);
+                                    int i=widget.index;
+                                    if(!switchvalue)
+                                      i=-i;
+                                    cart.addItem(i.toString(),coffee_list[widget.index].name+text,quantity, coffee_list[widget.index].price);
+                                    print(text);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(builder: (context) => CartScreen()),

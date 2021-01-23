@@ -40,10 +40,9 @@ class Orders with ChangeNotifier {
           body: json.encode({
             'id': uid,
             'amount': total,
-            'dateTime': timeStamp.toIso8601String(),
+            'dateTime': timeStamp.hour.toString()+':'+timeStamp.minute.toString()+':'+timeStamp.second.toString()+' '+timeStamp.day.toString()+'/'+timeStamp.month.toString()+'/'+timeStamp.hour.toString(),
             'products': cartProducts
                 .map((cp) => {
-              'id': cp.id,
               'title': cp.name,
               'quantity': cp.quantity,
               'price': cp.price

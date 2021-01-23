@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/rendering.dart';
 import 'cartscreen.dart';
+import 'historyscreen.dart';
 import 'loginscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _children = [
     MenuScreen(),
     CartScreen(),
+    HistoryScreen(),
     ProfileScreen()
   ];
 
@@ -77,17 +79,22 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: new Icon(Icons.home),
             title: new Text('Home'),
-            backgroundColor: Colors.redAccent,
+            backgroundColor: Colors.lightBlueAccent,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
             title: Text('Cart'),
-            backgroundColor: Colors.redAccent,
+            backgroundColor: Colors.lightBlueAccent,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.article_outlined),
+            title: Text('History'),
+            backgroundColor: Colors.lightBlueAccent,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             title: Text('Profile'),
-            backgroundColor: Colors.redAccent,
+            backgroundColor: Colors.lightBlueAccent,
           )
         ],
       ),

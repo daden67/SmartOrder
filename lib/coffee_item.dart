@@ -65,7 +65,7 @@ class CoffeeItem extends StatelessWidget {
                       color: Colors.white,
                     ),
                     onPressed: (){
-                      cart.addItem(index.toString(),coffee_list[index].name,1,coffee_list[index].price);
+                      cart.addItem(index.toString(),coffee_list[index].name+' - Cold',1,coffee_list[index].price);
                     },
                   ),
                 ),
