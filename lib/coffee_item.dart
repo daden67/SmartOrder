@@ -69,6 +69,7 @@ class CoffeeItem extends StatelessWidget {
                           coffee_list[index].name + ' - Cold',
                           1,
                           coffee_list[index].price);
+                      Fluttertoast.cancel();
                       Fluttertoast.showToast(
                         msg: "1 cold ${coffee_list[index].name} added",
                         toastLength: Toast.LENGTH_SHORT,

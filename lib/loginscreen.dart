@@ -76,9 +76,9 @@ class LoginScreen extends StatelessWidget {
                 ),
                 (errorMessage != ''
                     ? Text(
-                  errorMessage,
-                  style: TextStyle(color: Colors.red),
-                )
+                        errorMessage,
+                        style: TextStyle(color: Colors.red),
+                      )
                     : Container())
               ]),
             ),
@@ -93,10 +93,9 @@ class LoginScreen extends StatelessWidget {
                   if (user != null) {
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                            builder: (context) =>
-                                HomeScreen(
-                                    username: "Hello Phone", intMethod: 1)),
-                            (Route<dynamic> route) => false);
+                            builder: (context) => HomeScreen(
+                                username: "Hello Phone", intMethod: 1)),
+                        (Route<dynamic> route) => false);
                   } else {
                     signIn();
                   }
@@ -121,7 +120,7 @@ class LoginScreen extends StatelessWidget {
           MaterialPageRoute(
               builder: (context) =>
                   HomeScreen(username: "Hello Phone", intMethod: 1)),
-              (Route<dynamic> route) => false);
+          (Route<dynamic> route) => false);
     } catch (e) {
       handleError(e);
     }
@@ -146,7 +145,7 @@ class LoginScreen extends StatelessWidget {
     await Firebase.initializeApp();
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
-    await googleSignInAccount.authentication;
+        await googleSignInAccount.authentication;
     final AuthCredential credential = GoogleAuthProvider.credential(
       idToken: googleSignInAuthentication.idToken,
       accessToken: googleSignInAuthentication.accessToken,
@@ -173,8 +172,7 @@ class LoginScreen extends StatelessWidget {
         print("LoggedIn");
         final FacebookAccessToken accessToken = result.accessToken;
         var graphResponse = await http.get(
-            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${result
-                .accessToken.token}');
+            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${result.accessToken.token}');
         var profile = json.decode(graphResponse.body);
         name = profile['name'].toString();
         email = profile['email'].toString();
@@ -350,19 +348,15 @@ class LoginScreen extends StatelessWidget {
                     ),
                     Container(
                       height: 60,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.8,
                       child: RaisedButton(
                         onPressed: () {
                           _signIn().whenComplete(() {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        HomeScreen(
-                                            username: name, intMethod: 2)),
-                                    (Route<dynamic> route) => false);
+                                    builder: (context) => HomeScreen(
+                                        username: name, intMethod: 2)),
+                                (Route<dynamic> route) => false);
                             Fluttertoast.showToast(
                               msg: "Log in successfully",
                               toastLength: Toast.LENGTH_SHORT,
@@ -376,7 +370,7 @@ class LoginScreen extends StatelessWidget {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) => LoginScreen()),
-                                    (Route<dynamic> route) => false);
+                                (Route<dynamic> route) => false);
                             Fluttertoast.showToast(
                               msg: "Logged out",
                               toastLength: Toast.LENGTH_SHORT,
@@ -384,7 +378,8 @@ class LoginScreen extends StatelessWidget {
                               timeInSecForIosWeb: 1,
                               backgroundColor: Colors.black54,
                               textColor: Colors.white,
-                              fontSize: 16.0,);
+                              fontSize: 16.0,
+                            );
                           });
                         },
                         child: Row(
@@ -421,19 +416,15 @@ class LoginScreen extends StatelessWidget {
                     ),
                     Container(
                       height: 60,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.8,
                       child: RaisedButton(
                         onPressed: () {
                           _login().whenComplete(() {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        HomeScreen(
-                                            username: name, intMethod: 3)),
-                                    (Route<dynamic> route) => false);
+                                    builder: (context) => HomeScreen(
+                                        username: name, intMethod: 3)),
+                                (Route<dynamic> route) => false);
                             Fluttertoast.showToast(
                               msg: "Log in successfully",
                               toastLength: Toast.LENGTH_SHORT,
@@ -447,7 +438,7 @@ class LoginScreen extends StatelessWidget {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) => LoginScreen()),
-                                    (Route<dynamic> route) => false);
+                                (Route<dynamic> route) => false);
                             Fluttertoast.showToast(
                               msg: "Logged out",
                               toastLength: Toast.LENGTH_SHORT,
@@ -455,7 +446,8 @@ class LoginScreen extends StatelessWidget {
                               timeInSecForIosWeb: 1,
                               backgroundColor: Colors.black54,
                               textColor: Colors.white,
-                              fontSize: 16.0,);
+                              fontSize: 16.0,
+                            );
                           });
                         },
                         child: Row(

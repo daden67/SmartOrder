@@ -366,6 +366,7 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
                                         MaterialPageRoute(
                                             builder: (context) => HomeScreen()),
                                       );
+                                      Fluttertoast.cancel();
                                       Fluttertoast.showToast(
                                         msg: "$quantity ${coffee_list[widget.index].name}$text added",
                                         toastLength: Toast.LENGTH_SHORT,
