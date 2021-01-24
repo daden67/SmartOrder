@@ -11,6 +11,7 @@ import 'package:hismart/menuscreen.dart';
 import 'package:hismart/profilescreen.dart';
 import 'package:provider/provider.dart';
 import 'Model/cart.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
@@ -67,6 +68,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => LoginScreen()),
                       (Route<dynamic> route) => false);
+              Fluttertoast.showToast(
+                msg: "Logged out",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.lightBlue[100],
+                textColor: Colors.white,
+                fontSize: 16.0,);
             },
           ),
         ],

@@ -3,13 +3,12 @@ import 'coffee_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Model/cart.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CoffeeItem extends StatelessWidget {
   final int index;
 
   CoffeeItem({this.index});
-
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +63,21 @@ class CoffeeItem extends StatelessWidget {
                       Icons.add,
                       color: Colors.white,
                     ),
-                    onPressed: (){
-                      cart.addItem(index.toString(),coffee_list[index].name+' - Cold',1,coffee_list[index].price);
+                    onPressed: () {
+                      cart.addItem(
+                          index.toString(),
+                          coffee_list[index].name + ' - Cold',
+                          1,
+                          coffee_list[index].price);
+                      Fluttertoast.showToast(
+                        msg: "1 cold ${coffee_list[index].name} added",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black54,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
                     },
                   ),
                 ),

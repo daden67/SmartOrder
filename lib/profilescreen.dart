@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/services.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -19,7 +21,6 @@ class _ProfileScreen extends State<ProfileScreen> {
   String _name="";
   String _phonenumber="";
   String _address="";
-
   @override
   void initState() {
     FirebaseProfile.getProfileStream(_updateTodo);
@@ -169,6 +170,16 @@ class _ProfileScreen extends State<ProfileScreen> {
                     _Name = _name;
                     _PhoneNumber=_phonenumber;
                     _Address=_address;
+                    SystemChannels.textInput.invokeMethod('TextInput.hide');
+                    Fluttertoast.showToast(
+                      msg: "Saved",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.lightBlueAccent,
+                      textColor: Colors.white,
+                      fontSize: 16.0,
+                    );
                   });
                 },
                 child: Container(
@@ -190,6 +201,7 @@ class _ProfileScreen extends State<ProfileScreen> {
       ),
     );
   }
+
   _updateTodo(Account value) {
     var name = value.name;
     var phonenumber = value.phonenumber;

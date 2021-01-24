@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 String name;
 String email;
@@ -17,7 +18,6 @@ final FirebaseAuth auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
 class LoginScreen extends StatelessWidget {
-
   BuildContext contextt;
 
   String phoneNo;
@@ -25,8 +25,6 @@ class LoginScreen extends StatelessWidget {
   String verificationId;
   String errorMessage = '';
   FirebaseAuth _auth = FirebaseAuth.instance;
-
-
 
   Future<void> verifyPhone() async {
     final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
@@ -37,19 +35,20 @@ class LoginScreen extends StatelessWidget {
     };
     try {
       await _auth.verifyPhoneNumber(
-          phoneNumber: this.phoneNo, // PHONE NUMBER TO SEND OTP
+          phoneNumber: this.phoneNo,
+          // PHONE NUMBER TO SEND OTP
           codeAutoRetrievalTimeout: (String verId) {
             //Starts the phone number verification process for the given phone number.
             //Either sends an SMS with a 6 digit code to the phone number specified, or sign's the user in and [verificationCompleted] is called.
             this.verificationId = verId;
           },
-          codeSent:
-          smsOTPSent, // WHEN CODE SENT THEN WE OPEN DIALOG TO ENTER OTP.
+          codeSent: smsOTPSent,
+          // WHEN CODE SENT THEN WE OPEN DIALOG TO ENTER OTP.
           timeout: const Duration(seconds: 20),
           verificationCompleted: (AuthCredential phoneAuthCredential) {
             print(phoneAuthCredential);
           },
-          verificationFailed: (FirebaseAuthException  exceptio) {
+          verificationFailed: (FirebaseAuthException exceptio) {
             print('${exceptio.message}');
           });
     } catch (e) {
@@ -95,7 +94,8 @@ class LoginScreen extends StatelessWidget {
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
                             builder: (context) =>
-                                HomeScreen(username: "Hello Phone"   ,intMethod: 1)),
+                                HomeScreen(
+                                    username: "Hello Phone", intMethod: 1)),
                             (Route<dynamic> route) => false);
                   } else {
                     signIn();
@@ -114,13 +114,13 @@ class LoginScreen extends StatelessWidget {
         smsCode: smsOTP,
       );
       var credential2 = credential;
-      var user =  (await _auth.signInWithCredential(credential2)).user;
+      var user = (await _auth.signInWithCredential(credential2)).user;
       var currentUser = _auth.currentUser;
       assert(user.uid == currentUser.uid);
       Navigator.of(contextt).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (context) =>
-                  HomeScreen(username: "Hello Phone"   ,intMethod: 1)),
+                  HomeScreen(username: "Hello Phone", intMethod: 1)),
               (Route<dynamic> route) => false);
     } catch (e) {
       handleError(e);
@@ -142,10 +142,6 @@ class LoginScreen extends StatelessWidget {
     }
   }
 
-
-
-
-
   Future<User> _signIn() async {
     await Firebase.initializeApp();
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
@@ -165,32 +161,31 @@ class LoginScreen extends StatelessWidget {
       imageUrl = user.photoURL;
     }
     return user;
-
   }
+
   static final FacebookLogin facebookSignIn = new FacebookLogin();
+
   Future<Null> _login() async {
-    final FacebookLoginResult result =
-    await facebookSignIn.logIn(['email']);
+    final FacebookLoginResult result = await facebookSignIn.logIn(['email']);
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         print("LoggedIn");
         final FacebookAccessToken accessToken = result.accessToken;
-        var graphResponse = await http.get('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${result.accessToken.token}');
+        var graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${result
+                .accessToken.token}');
         var profile = json.decode(graphResponse.body);
-        name=profile['name'].toString();
-        email=profile['email'].toString();
-        imageUrl=profile['email'].toString();
+        name = profile['name'].toString();
+        email = profile['email'].toString();
+        imageUrl = profile['email'].toString();
         break;
     }
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-    contextt=context;
+    contextt = context;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -311,24 +306,21 @@ class LoginScreen extends StatelessWidget {
                         fillColor: Colors.white,
                         border: new OutlineInputBorder(
                           borderRadius: new BorderRadius.circular(25.0),
-                          borderSide: new BorderSide(
-                          ),
+                          borderSide: new BorderSide(),
                         ),
                         //fillColor: Colors.green
                       ),
                       validator: (val) {
-                        if(val.length==0) {
+                        if (val.length == 0) {
                           return "Phone Number cannot be empty";
-                        }else{
+                        } else {
                           return null;
                         }
                       },
                       onChanged: (value) {
                         print(value);
-                        this.phoneNo = "+84" +value;
+                        this.phoneNo = "+84" + value;
                       },
-
-
                       style: new TextStyle(
                         fontFamily: "Poppins",
                       ),
@@ -339,14 +331,17 @@ class LoginScreen extends StatelessWidget {
                         height: 50,
                         minWidth: 50,
                         child: RaisedButton.icon(
-                          onPressed: (){
+                          onPressed: () {
                             verifyPhone();
                           },
-                          icon: Icon(Icons.send,color: Colors.white,),
+                          icon: Icon(
+                            Icons.send,
+                            color: Colors.white,
+                          ),
                           label: Text("Send code"),
                           color: Colors.lightBlueAccent,
                           textColor: Colors.white,
-                          splashColor: Colors.lightBlueAccent ,
+                          splashColor: Colors.lightBlueAccent,
                         ),
                       ),
                     ),
@@ -355,19 +350,41 @@ class LoginScreen extends StatelessWidget {
                     ),
                     Container(
                       height: 60,
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.8,
                       child: RaisedButton(
                         onPressed: () {
                           _signIn().whenComplete(() {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        HomeScreen(username: name,intMethod: 2)),
+                                        HomeScreen(
+                                            username: name, intMethod: 2)),
                                     (Route<dynamic> route) => false);
+                            Fluttertoast.showToast(
+                              msg: "Log in successfully",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.black54,
+                              textColor: Colors.white,
+                              fontSize: 16.0,
+                            );
                           }).catchError((onError) {
                             Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(builder: (context) => LoginScreen()),
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()),
                                     (Route<dynamic> route) => false);
+                            Fluttertoast.showToast(
+                              msg: "Logged out",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.black54,
+                              textColor: Colors.white,
+                              fontSize: 16.0,);
                           });
                         },
                         child: Row(
@@ -402,22 +419,43 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
-
                     Container(
                       height: 60,
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.8,
                       child: RaisedButton(
                         onPressed: () {
                           _login().whenComplete(() {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        HomeScreen(username: name   ,intMethod: 3)),
+                                        HomeScreen(
+                                            username: name, intMethod: 3)),
                                     (Route<dynamic> route) => false);
+                            Fluttertoast.showToast(
+                              msg: "Log in successfully",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.black54,
+                              textColor: Colors.white,
+                              fontSize: 16.0,
+                            );
                           }).catchError((onError) {
                             Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(builder: (context) => LoginScreen()),
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()),
                                     (Route<dynamic> route) => false);
+                            Fluttertoast.showToast(
+                              msg: "Logged out",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.black54,
+                              textColor: Colors.white,
+                              fontSize: 16.0,);
                           });
                         },
                         child: Row(

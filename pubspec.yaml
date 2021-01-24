@@ -30,6 +30,7 @@ dependencies:
   firebase_database: ^4.2.0
   shared_preferences: ^0.5.12
   provider: ^4.3.2+3
+  fluttertoast: ^7.1.6
   flutter:
     sdk: flutter
 

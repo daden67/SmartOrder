@@ -5,11 +5,12 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:provider/provider.dart';
 import 'package:hismart/cartscreen.dart';
 import 'Model/cart.dart';
-
-
+import 'package:hismart/homescreen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CoffeeDetails extends StatefulWidget {
   final int index;
+
   CoffeeDetails({this.index});
 
   @override
@@ -27,7 +28,7 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
     return Scaffold(
-    backgroundColor: coffee_list[widget.index].backgroundColor,
+      backgroundColor: coffee_list[widget.index].backgroundColor,
       body: SafeArea(
         child: Container(
           child: Column(
@@ -58,7 +59,8 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => CartScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => CartScreen()),
                           );
                         },
                       ),
@@ -274,14 +276,11 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
                                     onChanged: (value) {
                                       setState(() {
                                         switchvalue = value;
-                                        if (switchvalue)
-                                          {
-                                            text = " - Cold";
-                                          }
-                                        else
-                                          {
-                                            text= " - Hot";
-                                          }
+                                        if (switchvalue) {
+                                          text = " - Cold";
+                                        } else {
+                                          text = " - Hot";
+                                        }
                                         print(text);
                                       });
                                     },
@@ -301,39 +300,83 @@ class _CoffeeDetailsState extends State<CoffeeDetails> {
                                   ),
                                 ],
                               ),
-                              Container(
-                                height: 70,
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                decoration: BoxDecoration(
-                                  color:
-                                      coffee_list[widget.index].backgroundColor,
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                                child: FlatButton(
-                                  onPressed: () {
-                                    int i=widget.index;
-                                    if(!switchvalue)
-                                      i=-i;
-                                    cart.addItem(i.toString(),coffee_list[widget.index].name+text,quantity, coffee_list[widget.index].price);
-                                    print(text);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => CartScreen()),
-                                    );
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.only(
-                                      top: 7,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 70,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    decoration: BoxDecoration(
+                                      color: coffee_list[widget.index]
+                                          .backgroundColor,
+                                      borderRadius: BorderRadius.circular(100),
                                     ),
-                                    child: Text(
-                                      "Order Now",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 30,
+                                    child: FlatButton(
+                                      onPressed: () {
+                                        int i = widget.index;
+                                        if (!switchvalue) i = -i;
+                                        cart.addItem(
+                                            i.toString(),
+                                            coffee_list[widget.index].name +
+                                                text,
+                                            quantity,
+                                            coffee_list[widget.index].price);
+                                        print(text);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CartScreen()),
+                                        );
+                                      },
+                                      child: Container(
+                                        child: Text(
+                                          "Order Now",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 30,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
+                                  Padding(
+                                    padding: EdgeInsets.all(30),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.add_circle,
+                                      size: 50,
+                                      color: coffee_list[widget.index]
+                                          .backgroundColor,
+                                    ),
+                                    onPressed: () {
+                                      int i = widget.index;
+                                      if (!switchvalue) i = -i;
+                                      cart.addItem(
+                                          i.toString(),
+                                          coffee_list[widget.index].name + text,
+                                          quantity,
+                                          coffee_list[widget.index].price);
+                                      print(text);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => HomeScreen()),
+                                      );
+                                      Fluttertoast.showToast(
+                                        msg: "$quantity ${coffee_list[widget.index].name}$text added",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.black54,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0,);
+                                    },
+                                  ),
+                                ],
                               )
                             ],
                           ),
